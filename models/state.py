@@ -3,14 +3,13 @@
 import models
 from os import getenv
 from models.base_model import Base, BaseModel
-from models.city import City
+from models.city import City # noqa
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
-
 class State(BaseModel, Base):
-    """ State class 
+    """ State class
     Attributes:
         __tablename__ (str): The name of the MySQL table to store States.
         name (sqlalchemy String): The name of the State.
@@ -39,4 +38,3 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     list_city.append(city)
             return list_city
-
