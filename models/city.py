@@ -2,11 +2,12 @@
 """ City Module for HBNB project """
 from models.base_model import Base, BaseModel
 from os import getenv
-from sqlalchemy import ForeignKey, String,Column
+from sqlalchemy import ForeignKey, String, Column
 from sqlalchemy.orm import relationship
 
+
 class City(BaseModel, Base):
-    """ The city class, contains state ID and name 
+    """ The city class, contains state ID and name
      Attributes:
         __tablename__ (str): The name of the MySQL table to store Cities.
         name (sqlalchemy String): The name of the City.
