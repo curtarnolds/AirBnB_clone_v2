@@ -2,13 +2,13 @@
 """This module defines a class User"""
 import hashlib  # noqa
 import models  # noqa
-from models.base_model import BaseModel
-# from os import getenv
-# from sqlalchemy import Column, String
-# from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base
+from os import getenv
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
-class User(BaseModel):
+class User(BaseModel, Base):
     """MySQL database user. Inherits from SQLAlchemy Base and links to the
     MySQL table users.
       Attributes:
@@ -20,28 +20,28 @@ class User(BaseModel):
       places (sqlalchemy relationship): The User-Place relationship.
       reviews (sqlalchemy relationship): The User-Review relationship.
     """
-    # if getenv('HBNB_TYPE_STORAGE') == 'db':
-    #     __tablename__ = 'users'
-    #     email = Column(String(128),
-    #                    nullable=False)
-    #     _password = Column('password',
-    #                        String(128),
-    #                        nullable=False)
-    #     first_name = Column(String(128),
-    #                         nullable=True)
-    #     last_name = Column(String(128),
-    #                        nullable=True)
-    #     places = relationship("Place",
-    #                           backref="user",
-    #                           cascade="all, delete-orphan")
-    #     reviews = relationship("Review",
-    #                            backref="user",
-    #                            cascade="all, delete-orphan")
-    # else:
-    email = ""
-    _password = ""
-    first_name = ""
-    last_name = ""
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'users'
+        email = Column(String(128),
+                       nullable=False)
+        password = Column('password',
+                          String(128),
+                          nullable=False)
+        first_name = Column(String(128),
+                            nullable=True)
+        last_name = Column(String(128),
+                           nullable=True)
+        places = relationship("Place",
+                              back_populates="user",
+                              cascade="all, delete-orphan")
+        reviews = relationship("Review",
+                               back_populates="user",
+                               cascade="all, delete-orphan")
+    else:
+        email = ""
+        _password = ""
+        first_name = ""
+        last_name = ""
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
