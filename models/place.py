@@ -3,13 +3,22 @@
 import models
 from os import getenv
 from models.base_model import Base, BaseModel
-from models.amenity import Amenity
-from models.review import Review
-from sqlalchemy import Column, Float, ForeignKey,Integer, String, Table
+from models.review import Review  # noqa
+from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table  # noqa
 from sqlalchemy.orm import relationship
 
+
+# place_amenity = Table('place_amenity',
+#                       Base.metadata,
+#                       Column('place_id', String(60), ForeignKey('places.id'),
+#                              primary_key=True),
+#                       Column('amenity_id', String(60),
+#                              ForeignKey('amenities.id'),
+#                              primary_key=True))
+
+
 class Place(BaseModel, Base):
-    """Representation of Place 
+    """Representation of Place
      Attributes:
         __tablename__ (str): The name of the MySQL table to store places.
         city_id (sqlalchemy String): The place's city id.
@@ -52,12 +61,13 @@ class Place(BaseModel, Base):
                                 nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
-        reviews = relationship("Review", cascade="all, delete",
-                               backref="places")
-        amenities = relationship("Amenity",
-                                 secondary='place_amenity',
-                                 viewonly=False,
-                                 backref="place_amenities")
+        # reviews = relationship("Review", cascade="all, delete",
+        #                        backref="places")
+        # amenities = relationship("Amenity",
+        #                          secondary='place_amenity',
+        #                          viewonly=False,
+        #                          backref="place_amenities")
+        cities = relationship('City', back_populates='places')
     else:
         city_id = ""
         user_id = ""
@@ -85,13 +95,22 @@ class Place(BaseModel, Base):
                 list_review.append(review)
         return list_review
 
-    if getenv('HBNB_TYPE_STORAGE') != 'db':
-        @property
-        def amenities(self):
-            """attribute that returns list of Amenity instances"""
-            values_amenity = models.storage.all("Amenity").values()
-            list_amenity = []
-            for amenity in values_amenity:
-                if amenity.place_id == self.id:
-                    list_amenity.append(amenity)
-            return list_amenity
+    # if getenv('HBNB_TYPE_STORAGE') != 'db':
+    #     @property
+    #     def amenities(self):
+    #         """attribute that returns list of Amenity instances"""
+    #         values_amenity = models.storage.all("Amenity").values()
+    #         list_amenity = []
+    #         for amenity in values_amenity:
+    #             if amenity.place_id == self.id:
+    #                 list_amenity.append(amenity)
+    #         return list_amenity
+
+    #     @amenities.setter
+    #     def amenities(self, amenity):
+    #         """Add Amenity.id to amenity_ids"""
+    #         from models.amenity import Amenity  # noqa
+    #         if isinstance(amenity, Amenity):
+    #             self.amenity_ids.append(amenity.id)
+    #         else:
+    #             pass

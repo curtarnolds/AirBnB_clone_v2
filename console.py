@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import shlex
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -10,7 +11,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -20,16 +20,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -119,27 +119,27 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        try:
-            args = shlex.split(args)
-            new_instance = eval(args[0])()
-            for i in args[1:]:
-                try:
-                    key = i.split("=")[0]
-                    value = i.split("=")[1]
-                    if hasattr(new_instance, key) is True:
-                        value = value.replace("_", " ")
-                        try:
-                            value = eval(value)
-                        except Exception:
-                            pass
-                        setattr(new_instance, key, value)
-                except (ValueError, IndexError):
-                    pass
-            new_instance.save()
-            print(new_instance.id)
-        except Exception:
-            print("** class doesn't exist **")
-            return
+        # try:
+        args = shlex.split(args)
+        new_instance = eval(args[0])()
+        for i in args[1:]:
+            try:
+                key = i.split("=")[0]
+                value = i.split("=")[1]
+                if hasattr(new_instance, key) is True:
+                    value = value.replace("_", " ")
+                    try:
+                        value = eval(value)
+                    except Exception:
+                        pass
+                    setattr(new_instance, key, value)
+            except (ValueError, IndexError):
+                pass
+        new_instance.save()
+        print(new_instance.id)
+        # except Exception:
+        #     print("** class doesn't exist **")
+        #     return
 
     def help_create(self):
         """ Help information for the create method """
@@ -215,17 +215,16 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)

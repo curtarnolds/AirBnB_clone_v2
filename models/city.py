@@ -20,9 +20,11 @@ class City(BaseModel, Base):
         state_id = Column(String(60),
                           ForeignKey('states.id'),
                           nullable=False)
+        # many-to-one relationship with Place
         places = relationship("Place",
-                              backref="cities",
+                              back_populates="cities",
                               cascade="all, delete-orphan")
+        state = relationship('State', back_populates='cities')
     else:
         name = ""
         state_id = ""
