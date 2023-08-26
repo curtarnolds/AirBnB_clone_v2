@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-from models.base_model import Base, BaseModel
+from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import ForeignKey, String, Column
 from sqlalchemy.orm import relationship
@@ -21,9 +21,9 @@ class City(BaseModel, Base):
                           ForeignKey('states.id'),
                           nullable=False)
         # many-to-one relationship with Place
-        places = relationship("Place",
-                              back_populates="cities",
-                              cascade="all, delete-orphan")
+        # places = relationship("Place",
+        #                       back_populates="cities",
+        #                       cascade="all, delete-orphan")
         state = relationship('State', back_populates='cities')
     else:
         name = ""
