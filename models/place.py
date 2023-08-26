@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-import models
-from os import getenv
+# import models
+# from os import getenv
 from models.base_model import BaseModel
-from models.review import Review  # noqa
-from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table  # noqa
-from sqlalchemy.orm import relationship
+# from models.review import Review  # noqa
+# from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table  # noqa
+# from sqlalchemy.orm import relationship
 
 
 # place_amenity = Table('place_amenity',
@@ -86,15 +86,15 @@ class Place(BaseModel):
         """initializes Place"""
         super().__init__(*args, **kwargs)
 
-    @property
-    def reviews(self):
-        """attribute that returns list of Review instances"""
-        values_review = models.storage.all("Review").values()
-        list_review = []
-        for review in values_review:
-            if review.place_id == self.id:
-                list_review.append(review)
-        return list_review
+    # @property
+    # def reviews(self):
+    #     """attribute that returns list of Review instances"""
+    #     values_review = models.storage.all("Review").values()
+    #     list_review = []
+    #     for review in values_review:
+    #         if review.place_id == self.id:
+    #             list_review.append(review)
+    #     return list_review
 
     # if getenv('HBNB_TYPE_STORAGE') != 'db':
     #     @property
