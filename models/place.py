@@ -3,18 +3,19 @@
 import models
 from os import getenv
 from models.base_model import BaseModel, Base
-# from models.review import Review  # noqa
+from models.review import Review  # noqa
 from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table  # noqa
 from sqlalchemy.orm import relationship
 
 
-# place_amenity = Table('place_amenity',
-#                       Base.metadata,
-#                       Column('place_id', String(60), ForeignKey('places.id'),
-#                              primary_key=True),
-#                       Column('amenity_id', String(60),
-#                              ForeignKey('amenities.id'),
-#                              primary_key=True))
+place_amenity = Table('place_amenity',
+                      Base.metadata,
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True))
 
 
 class Place(BaseModel, Base):
@@ -63,10 +64,10 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", cascade="all, delete",
                                back_populates="place")
-    #     # amenities = relationship("Amenity",
-    #     #                          secondary='place_amenity',
-    #     #                          viewonly=False,
-    #     #                          backref="place_amenities")
+        amenities = relationship("Amenity",
+                                 secondary='place_amenity',
+                                 viewonly=False,
+                                 back_populates="place_amenities")
         cities = relationship('City', back_populates='places')
         user = relationship('User', back_populates='places')
     else:
@@ -97,21 +98,21 @@ class Place(BaseModel, Base):
                     list_review.append(review)
             return list_review
 
-    #     @property
-    #     def amenities(self):
-    #         """attribute that returns list of Amenity instances"""
-    #         values_amenity = models.storage.all("Amenity").values()
-    #         list_amenity = []
-    #         for amenity in values_amenity:
-    #             if amenity.place_id == self.id:
-    #                 list_amenity.append(amenity)
-    #         return list_amenity
+        @property
+        def amenities(self):
+            """attribute that returns list of Amenity instances"""
+            values_amenity = models.storage.all("Amenity").values()
+            list_amenity = []
+            for amenity in values_amenity:
+                if amenity.place_id == self.id:
+                    list_amenity.append(amenity)
+            return list_amenity
 
-    #     @amenities.setter
-    #     def amenities(self, amenity):
-    #         """Add Amenity.id to amenity_ids"""
-    #         from models.amenity import Amenity  # noqa
-    #         if isinstance(amenity, Amenity):
-    #             self.amenity_ids.append(amenity.id)
-    #         else:
-    #             pass
+        @amenities.setter
+        def amenities(self, amenity):
+            """Add Amenity.id to amenity_ids"""
+            from models.amenity import Amenity  # noqa
+            if isinstance(amenity, Amenity):
+                self.amenity_ids.append(amenity.id)
+            else:
+                pass
