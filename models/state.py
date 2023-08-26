@@ -3,9 +3,9 @@
 import models
 from os import getenv
 from models.base_model import Base, BaseModel
-from models.city import City # noqa
+from models.city import City  # noqa
 from sqlalchemy import Column, String  # noqa
-from sqlalchemy.orm import relationship # noqa
+from sqlalchemy.orm import relationship  # noqa
 
 
 class State(BaseModel, Base):
@@ -19,7 +19,7 @@ class State(BaseModel, Base):
         __tablename__ = 'states'
         name = Column(String(128),
                       nullable=False)
-        cities = relationship("City", cascade="all, delete, delete-orphan",
+        cities = relationship("City", cascade="all, delete",
                               back_populates="state")
     else:
         name = ""

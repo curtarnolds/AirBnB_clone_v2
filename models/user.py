@@ -5,7 +5,7 @@ import models  # noqa
 from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String
-# from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
@@ -31,9 +31,9 @@ class User(BaseModel, Base):
                             nullable=True)
         last_name = Column(String(128),
                            nullable=True)
-        # places = relationship("Place",
-        #                       back_populates="user",
-        #                       cascade="all, delete-orphan")
+        places = relationship("Place",
+                              back_populates="user",
+                              cascade="all, delete")
         # reviews = relationship("Review",
         #                        back_populates="user",
         #                        cascade="all, delete-orphan")

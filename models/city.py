@@ -21,9 +21,9 @@ class City(BaseModel, Base):
                           ForeignKey('states.id'),
                           nullable=False)
         # many-to-one relationship with Place
-        # places = relationship("Place",
-        #                       back_populates="cities",
-        #                       cascade="all, delete-orphan")
+        places = relationship("Place",
+                              back_populates="cities",
+                              cascade="all, delete")
         state = relationship('State', back_populates='cities')
     else:
         name = ""
