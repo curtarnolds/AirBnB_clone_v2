@@ -33,7 +33,7 @@ class test_User(test_basemodel):
         new = self.value()
         self.assertEqual(type(new.email), str if
                          os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                         type(None)) 
+                         type(None))
 
     def test_password(self):
         """ """
