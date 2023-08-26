@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-import models
+# import models
 from os import getenv
-from models.base_model import Base, BaseModel
-from models.review import Review  # noqa
+from models.base_model import BaseModel, Base
+# from models.review import Review  # noqa
 from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table  # noqa
 from sqlalchemy.orm import relationship
 
@@ -61,12 +61,12 @@ class Place(BaseModel, Base):
                                 nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
-        # reviews = relationship("Review", cascade="all, delete",
-        #                        backref="places")
-        # amenities = relationship("Amenity",
-        #                          secondary='place_amenity',
-        #                          viewonly=False,
-        #                          backref="place_amenities")
+    #     # reviews = relationship("Review", cascade="all, delete",
+    #     #                        backref="places")
+    #     # amenities = relationship("Amenity",
+    #     #                          secondary='place_amenity',
+    #     #                          viewonly=False,
+    #     #                          backref="place_amenities")
         cities = relationship('City', back_populates='places')
         user = relationship('User', back_populates='places')
     else:
@@ -86,15 +86,15 @@ class Place(BaseModel, Base):
         """initializes Place"""
         super().__init__(*args, **kwargs)
 
-    @property
-    def reviews(self):
-        """attribute that returns list of Review instances"""
-        values_review = models.storage.all("Review").values()
-        list_review = []
-        for review in values_review:
-            if review.place_id == self.id:
-                list_review.append(review)
-        return list_review
+    # @property
+    # def reviews(self):
+    #     """attribute that returns list of Review instances"""
+    #     values_review = models.storage.all("Review").values()
+    #     list_review = []
+    #     for review in values_review:
+    #         if review.place_id == self.id:
+    #             list_review.append(review)
+    #     return list_review
 
     # if getenv('HBNB_TYPE_STORAGE') != 'db':
     #     @property

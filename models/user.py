@@ -33,10 +33,10 @@ class User(BaseModel, Base):
                            nullable=True)
         places = relationship("Place",
                               back_populates="user",
-                              cascade="all, delete-orphan")
-        reviews = relationship("Review",
-                               back_populates="user",
-                               cascade="all, delete-orphan")
+                              cascade="all, delete")
+        # reviews = relationship("Review",
+        #                        back_populates="user",
+        #                        cascade="all, delete-orphan")
     else:
         email = ""
         _password = ""
