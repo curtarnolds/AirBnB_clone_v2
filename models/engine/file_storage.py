@@ -14,13 +14,7 @@ class FileStorage:
         If a cls is specified, returns a dictionary of objects of that type.
         Otherwise, returns the __objects dictionary.
         """
-        from models.base_model import BaseModel  # noqa
-        from models.user import User  # noqa
-        from models.place import Place  # noqa
-        from models.state import State  # noqa
-        from models.city import City  # noqa
-        from models.amenity import Amenity  # noqa
-        from models.review import Review  # noqa
+        from models import Review, Amenity, BaseModel, User, Place, State, City  # noqa
         if cls is not None:
             if type(cls) == str:
                 cls = eval(cls)
@@ -46,13 +40,7 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
+        from models import Review, Amenity, BaseModel, User, Place, State, City  # noqa
 
         classes = {
             'BaseModel': BaseModel, 'User': User, 'Place': Place,

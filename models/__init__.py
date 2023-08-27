@@ -3,6 +3,13 @@
 instantiates a database storage engine (DBStorage).
 Otherwise, instantiates a file storage engine (FileStorage)"""
 import os
+from models.base_model import BaseModel  # noqa
+from models.user import User  # noqa
+from models.place import Place  # noqa
+from models.state import State  # noqa
+from models.city import City  # noqa
+from models.amenity import Amenity  # noqa
+from models.review import Review  # noqa
 
 type_storage = os.getenv('HBNB_TYPE_STORAGE')
 
