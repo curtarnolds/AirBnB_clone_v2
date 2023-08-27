@@ -12,7 +12,10 @@ from os import getenv
 
 time_fmt = "%Y-%m-%dT%H:%M:%S.%f"
 
-Base = declarative_base()
+if getenv("HBNB_TYPE_STORAGE") == 'db':
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
