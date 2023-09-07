@@ -12,7 +12,7 @@ fi
 sudo mkdir -p /data/web_static/releases/test /data/web_static/shared
 
 # Grant ownership of /data/ and it's contents to ubuntu user and group
-sudo chown -R "$USER:$USER" /data/
+sudo chown -R ubuntu:ubuntu /data/
 
 # Create fake HTML to test Nginx configuration
 echo "<html>
