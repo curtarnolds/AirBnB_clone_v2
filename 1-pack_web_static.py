@@ -20,4 +20,4 @@ def do_pack():
     file_name = f"web_static_{fmt}"
     system(
         "if ! [ -d versions ];then mkdir versions;fi")
-    local(f"tar -cvzf {dir_name}{file_name}.tgz web_static")
+    local(f"tar --mode=664 -cvzf {dir_name}{file_name}.tgz web_static")
