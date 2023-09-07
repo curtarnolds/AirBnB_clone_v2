@@ -17,7 +17,7 @@ def do_pack():
     from datetime import datetime
     import os
     dir_name = 'versions/'
-    fmt = datetime.now().strftime('%Y%m%d%H%M')
+    fmt = datetime.now().strftime('%Y%m%d%H%M%S')
     file_name = f"web_static_{fmt}"
     tar_file = f"{dir_name}{file_name}.tgz"
     system(
