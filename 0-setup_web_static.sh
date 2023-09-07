@@ -38,6 +38,9 @@ SERVER_CONFIG=\
         	alias /data/web_static/current/;
 			try_files \$uri \$uri/ =404;
         }
+		location / {
+                try_files \$uri \$uri/ =404;
+        }
 }"
 
 echo -e "Ceci n'est pas une page\n" > /var/www/html/404.html
