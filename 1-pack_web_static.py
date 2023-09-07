@@ -23,5 +23,7 @@ def do_pack():
     system(
         "if ! [ -d versions ];then mkdir versions;fi")
     puts(f'Packing web_static to {tar_file}')
-    local(f"tar -cvzf {tar_file} web_static")
+    pack = local(f"tar -cvzf {tar_file} web_static")
     puts(f'web_static packed: {tar_file} -> {os.path.getsize(tar_file)}Bytes')
+    if pack.succeeded:
+        return pack
