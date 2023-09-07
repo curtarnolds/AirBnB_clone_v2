@@ -23,6 +23,11 @@ echo "<html>
   </body>
 </html>" > /data/web_static/releases/test/index.html
 
+# Remove link if present
+if [ -L "/data/web_static/current" ]; then
+    rm -R "/data/web_static/current"
+fi
+
 # Create a symlink  /data/web_static/current to /data/web_static/releases/test/.
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
