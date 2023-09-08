@@ -38,7 +38,7 @@ def do_deploy(archive_path=None):
     from os import path
     if path.exists(archive_path):
         put(archive_path, '/tmp/')
-        archive = archive_path.rsplit('/', 1)[1]
+        archive = archive_path[9:]
         remote_path = archive.rsplit('.', 1)[0]
         wstatic = '/data/web_static'
         run(f'mkdir -p {wstatic}/releases/{remote_path}')
