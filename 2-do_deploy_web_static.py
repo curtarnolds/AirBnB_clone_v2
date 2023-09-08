@@ -49,7 +49,7 @@ def do_deploy(archive_path=None):
         delete = run(f'rm -rf {wstatic}/releases/{remote_path}/web_static/ \
                      /tmp/{archive} {wstatic}/current')
         link = run(f'ln -s {wstatic}/releases/{remote_path} {wstatic}/current')
-        puts('New version deployed:')
+        puts('New version deployed!')
         return all([upload.succeeded, create_dir.succeeded,
                     unzip_files.succeeded, mv_unzip.succeeded,
                     delete.succeeded, link.succeeded])
