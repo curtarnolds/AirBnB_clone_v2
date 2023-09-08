@@ -7,7 +7,7 @@ from fabric.api import local, task, puts, put, run, env
 
 
 env.hosts = ['54.87.209.173', '54.144.148.21']
-env.user = ['ubuntu']
+env.user = 'ubuntu'
 
 
 @task
