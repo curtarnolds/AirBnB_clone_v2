@@ -34,7 +34,10 @@ def do_pack():
 
 
 def do_deploy(archive_path=None):
-    """Distributes an archive to web servers
+    """Distributes an archive to web servers.
+
+    Args:
+        archive_path: The path to archive
     """
     from os import path
     if path.exists(archive_path):
