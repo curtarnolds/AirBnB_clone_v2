@@ -34,7 +34,11 @@ def do_pack():
 
 @task
 def do_deploy(archive_path=None):
-    """Distributes an archive to web servers"""
+    """Distributes an archive to web servers.
+
+    Args:
+        archive_path: The path to archive
+    """
     from os import path
     if path.exists(archive_path):
         put(archive_path, '/tmp/')
@@ -56,7 +60,10 @@ def do_deploy(archive_path=None):
 
 @task
 def deploy():
-    """Distributes an archive to web servers."""
+    """Distributes an archive to web servers.
+    ...
+    ...
+    """
     pack = do_pack()
     if pack:
         deploy_pack = do_deploy(pack)
