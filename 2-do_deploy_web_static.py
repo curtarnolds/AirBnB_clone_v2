@@ -3,14 +3,13 @@
 using do_pack.
 Name of folder: web_static_<year><month><day><hour><minute>
 """
-from fabric.api import local, task, puts, put, run, env
+from fabric.api import local, puts, put, run, env
 
 
 env.hosts = ['54.87.209.173', '54.144.148.21']
 env.user = 'ubuntu'
 
 
-@task
 def do_pack():
     """Pack all web_static directory and it's contents into .tgz file
 
@@ -34,7 +33,6 @@ def do_pack():
         return False
 
 
-@task
 def do_deploy(archive_path=None):
     """Distributes an archive to web servers"""
     from os import path
