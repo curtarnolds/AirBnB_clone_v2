@@ -30,6 +30,8 @@ def do_pack():
     puts(f'web_static packed: {tar_file} -> {path.getsize(tar_file)}Bytes')
     if pack.succeeded:
         return tar_file
+    else:
+        return False
 
 
 @task
