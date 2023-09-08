@@ -3,7 +3,7 @@
 using do_pack.
 Name of folder: web_static_<year><month><day><hour><minute>
 """
-from fabric.api import local, puts, put, run, env
+from fabric.api import *
 
 
 env.hosts = ['54.87.209.173', '54.144.148.21']
@@ -33,7 +33,7 @@ def do_pack():
         return False
 
 
-def do_deploy(archive_path=None):
+def do_deploy(archive_path):
     """Distributes an archive to web servers.
 
     Args:
