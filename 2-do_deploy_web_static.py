@@ -55,4 +55,5 @@ def do_deploy(archive_path=None):
         run(f'ln -s {wstatic}/releases/{remote_path}/ {wstatic}/current')
         puts('New version deployed!')
         return True
-    return False
+    else:
+        return False
