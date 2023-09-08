@@ -37,7 +37,7 @@ def do_deploy(archive_path=None):
     """Distributes an archive to web servers"""
     from os import path
     if path.exists(archive_path):
-        # put(archive_path, '/tmp/')
+        put(archive_path, '/tmp/')
         archive = archive_path.rsplit('/', 1)[1]
         remote_path = archive.rsplit('.', 1)[0]
         wstatic = '/data/web_static'
