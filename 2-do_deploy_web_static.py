@@ -1,44 +1,37 @@
 #!/usr/bin/python3
-"""Fabric script that generates a .tgz archive from the contents of web_static
-using do_pack.
-Name of folder: web_static_<year><month><day><hour><minute>
 """
+Fabric script that distributes an archive to your web servers
+"""
+
+from datetime import datetime
 from fabric.api import *
+import os
 
-
-env.hosts = ['54.87.209.173', '54.144.148.21']
-env.user = 'ubuntu'
+env.hosts = ["54.237.119.247", "100.25.139.58"]
+env.user = "ubuntu"
 
 
 def do_pack():
-    """Pack all web_static directory and it's contents into .tgz file
-
-    Return:
-        The archive path if archive was successfully created else None
     """
-    from os import system, path
-    from datetime import datetime
-    dir_name = 'versions/'
-    fmt = datetime.now().strftime('%Y%m%d%H%M%S')
-    file_name = f"web_static_{fmt}"
-    tar_file = f"{dir_name}{file_name}.tgz"
-    system(
-        "if ! [ -d versions ];then mkdir versions;fi")
-    puts(f'Packing web_static to {tar_file}')
-    pack = local(f"tar -cvzf {tar_file} web_static")
-    puts(f'web_static packed: {tar_file} -> {path.getsize(tar_file)}Bytes')
-    if pack.succeeded:
-        return tar_file
+        return the archive path if archive has generated correctly.
+    """
+
+    local("mkdir -p versions")
+    date = datetime.now().strftime("%Y%m%d%H%M%S")
+    archived_f_path = "versions/web_static_{}.tgz".format(date)
+    t_gzip_archive = local("tar -cvzf {} web_static".format(archived_f_path))
+
+    if t_gzip_archive.succeeded:
+        return archived_f_path
     else:
-        return False
+        return None
 
 
 def do_deploy(archive_path):
     """
         Distribute archive.
     """
-    from os import path
-    if path.exists(archive_path):
+    if os.path.exists(archive_path):
         archived_file = archive_path[9:]
         newest_version = "/data/web_static/releases/" + archived_file[:-4]
         archived_file = "/tmp/" + archived_file
