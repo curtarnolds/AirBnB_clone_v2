@@ -41,14 +41,14 @@ def do_deploy(archive_path=None):
         archive = archive_path.rsplit('/', 1)[1]
         remote_path = archive.rsplit('.', 1)[0]
         wstatic = '/data/web_static'
-        run(f'mkdir -p {wstatic}/releases/{remote_path}')
+        run(f'mkdir -p {wstatic}/releases/{remote_path}/')
         run(f'tar -xzf /tmp/{archive} -C \
-                          {wstatic}/releases/{remote_path}')
+                          {wstatic}/releases/{remote_path}/')
         run(f'mv -f {wstatic}/releases/{remote_path}/web_static/* \
-                       {wstatic}/releases/{remote_path}')
+                       {wstatic}/releases/{remote_path}/')
         run(f'rm -rf {wstatic}/releases/{remote_path}/web_static/ \
                      /tmp/{archive} {wstatic}/current')
-        run(f'ln -s {wstatic}/releases/{remote_path} {wstatic}/current')
+        run(f'ln -s {wstatic}/releases/{remote_path}/ {wstatic}/current')
         puts('New version deployed!')
         return True
     return False
