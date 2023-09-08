@@ -7,6 +7,7 @@ from fabric.api import local, task, puts, put, run, env
 
 
 env.hosts = ['54.87.209.173', '54.144.148.21']
+env.user = ['ubuntu']
 
 
 @task
@@ -16,9 +17,8 @@ def do_pack():
     Return:
         The archive path if archive was successfully created else None
     """
-    from os import system
+    from os import system, path
     from datetime import datetime
-    import os
     dir_name = 'versions/'
     fmt = datetime.now().strftime('%Y%m%d%H%M%S')
     file_name = f"web_static_{fmt}"
@@ -27,7 +27,7 @@ def do_pack():
         "if ! [ -d versions ];then mkdir versions;fi")
     puts(f'Packing web_static to {tar_file}')
     pack = local(f"tar -cvzf {tar_file} web_static")
-    puts(f'web_static packed: {tar_file} -> {os.path.getsize(tar_file)}Bytes')
+    puts(f'web_static packed: {tar_file} -> {path.getsize(tar_file)}Bytes')
     if pack.succeeded:
         return tar_file
 
@@ -35,26 +35,22 @@ def do_pack():
 @task
 def do_deploy(archive_path=None):
     """Distributes an archive to web servers"""
-    if archive_path is None:
-        return False
-    upload = put(archive_path, '/tmp/')
-    archive = archive_path.rsplit('/', 1)[1]
-    remote_path = archive.rsplit('.', 1)[0]
-    wstatic = '/data/web_static'
-    create_dir = run(f'mkdir -p {wstatic}/releases/{remote_path}')
-    unzip_files = run(f'tar -xzf /tmp/{archive} -C \
-                      {wstatic}/releases/{remote_path}')
-    mv_unzip = run(f'mv -f {wstatic}/releases/{remote_path}/web_static/* \
-                   {wstatic}/releases/{remote_path}')
-    delete = run(f'rm -rf {wstatic}/releases/{remote_path}/web_static/ \
-                 /tmp/{archive} {wstatic}/current')
-    link = run(f'ln -s {wstatic}/releases/{remote_path} {wstatic}/current')
-    puts('New version deployed:')
-    return all([upload.succeeded, create_dir.succeeded, unzip_files.succeeded,
-                mv_unzip.succeeded, delete.succeeded, link.succeeded])
-
-
-@task
-def cleanup():
-    """.............."""
-    run('rm -rf /data/web_static')
+    from os import path
+    if path.exists(archive_path):
+        upload = put(archive_path, '/tmp/')
+        archive = archive_path.rsplit('/', 1)[1]
+        remote_path = archive.rsplit('.', 1)[0]
+        wstatic = '/data/web_static'
+        create_dir = run(f'mkdir -p {wstatic}/releases/{remote_path}')
+        unzip_files = run(f'tar -xzf /tmp/{archive} -C \
+                          {wstatic}/releases/{remote_path}')
+        mv_unzip = run(f'mv -f {wstatic}/releases/{remote_path}/web_static/* \
+                       {wstatic}/releases/{remote_path}')
+        delete = run(f'rm -rf {wstatic}/releases/{remote_path}/web_static/ \
+                     /tmp/{archive} {wstatic}/current')
+        link = run(f'ln -s {wstatic}/releases/{remote_path} {wstatic}/current')
+        puts('New version deployed:')
+        return all([upload.succeeded, create_dir.succeeded,
+                    unzip_files.succeeded, mv_unzip.succeeded,
+                    delete.succeeded, link.succeeded])
+    return False
