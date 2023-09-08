@@ -34,25 +34,26 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """Distributes an archive to web servers.
-
-    Args:
-        archive_path: The path to archive
+    """
+        Distribute archive.
     """
     from os import path
     if path.exists(archive_path):
-        put(archive_path, '/tmp/')
-        archive = archive_path.rsplit('/', 1)[1]
-        remote_path = archive.rsplit('.', 1)[0]
-        wstatic = '/data/web_static'
-        run(f'sudo mkdir -p {wstatic}/releases/{remote_path}/')
-        run(f'sudo tar -xzf /tmp/{archive} -C \
-                          {wstatic}/releases/{remote_path}/')
-        run(f'sudo mv -f {wstatic}/releases/{remote_path}/web_static/* \
-                       {wstatic}/releases/{remote_path}/')
-        run(f'sudo rm -rf {wstatic}/releases/{remote_path}/web_static/ \
-                     /tmp/{archive} {wstatic}/current')
-        run(f'sudo ln -s {wstatic}/releases/{remote_path}/ {wstatic}/current')
-        puts('New version deployed!')
+        archived_file = archive_path[9:]
+        newest_version = "/data/web_static/releases/" + archived_file[:-4]
+        archived_file = "/tmp/" + archived_file
+        put(archive_path, "/tmp/")
+        run("sudo mkdir -p {}".format(newest_version))
+        run("sudo tar -xzf {} -C {}/".format(archived_file,
+                                             newest_version))
+        run("sudo rm {}".format(archived_file))
+        run("sudo mv {}/web_static/* {}".format(newest_version,
+                                                newest_version))
+        run("sudo rm -rf {}/web_static".format(newest_version))
+        run("sudo rm -rf /data/web_static/current")
+        run("sudo ln -s {} /data/web_static/current".format(newest_version))
+
+        print("New version deployed!")
         return True
+
     return False
