@@ -34,7 +34,8 @@ def do_pack():
 
 
 def do_deploy(archive_path=None):
-    """Distributes an archive to web servers"""
+    """Distributes an archive to web servers
+    """
     from os import path
     if path.exists(archive_path):
         put(archive_path, '/tmp/')
