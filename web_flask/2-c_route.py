@@ -20,6 +20,7 @@ def hbnb():
 
 @app.route('/c/<text>')
 def text(text):
+    """Return simple text"""
     return f"C {text.replace('_', ' ')}"
 
 

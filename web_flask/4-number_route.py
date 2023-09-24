@@ -20,6 +20,7 @@ def hbnb():
 
 @app.route('/c/<text>')
 def text(text):
+    """Return simple text"""
     return f"C {text.replace('_', ' ')}"
 
 
@@ -27,11 +28,13 @@ def text(text):
 @app.route('/python/')
 @app.route('/python/<text>')
 def python(text='is cool'):
+    """Return simple text"""
     return f"Python {text.replace('_', ' ')}"
 
 
 @app.route('/number/<int:n>')
 def number(n):
+    """Return simple text"""
     return f"{n} is a number"
 
 
