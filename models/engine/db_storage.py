@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines the DBStorage engine."""
 from os import getenv
-from models.base_model import Base, BaseModel # noqa
+from models.base_model import Base, BaseModel  # noqa
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
