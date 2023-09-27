@@ -12,6 +12,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship  # noqa
 
 
+classes = [
+        'BaseModel', 'User', 'Place',
+        'State', 'City', 'Amenity',
+        'Review'
+    ]
+
+
 class DBStorage:
     """Database storage engine.
     Attributes:
@@ -46,11 +53,11 @@ class DBStorage:
             objs.extend(self.__session.query(Place).all())
             objs.extend(self.__session.query(Review).all())
             objs.extend(self.__session.query(Amenity).all())
-        else:
-            if type(cls) == str:
-                cls = eval(cls)
+            return {f"{type(o).__name__}.{o.id}": o for o in objs}
+        elif type(cls) == str and cls in classes:
+            cls = eval(cls)
             objs = self.__session.query(cls)
-        return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+            return {f"{type(o).__name__}.{o.id}": o for o in objs}
 
     def new(self, obj):
         """Add obj to the current database session."""
