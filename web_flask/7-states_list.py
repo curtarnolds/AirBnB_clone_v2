@@ -70,7 +70,7 @@ def number_odd_or_even(n):
 def states_list():
     """Display HTML of list of states"""
     storage.reload()
-    states_obj = storage.all('States')
+    states_obj = storage.all('State')
     states_list = [key for key in states_obj.values()]
     return render_template('7-states_list.html', states=states_list)
 
