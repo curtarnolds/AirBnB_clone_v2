@@ -69,10 +69,10 @@ def number_odd_or_even(n):
 @app.route('/states_list')
 def states_list():
     """Display HTML of list of states"""
-    storage.reload()
     states_obj = storage.all('State')
     states_list = [key for key in states_obj.values()]
-    return render_template('7-states_list.html', states=states_list)
+    sorted_states = sorted(states_list, key=lambda x: x.name)
+    return render_template('7-states_list.html', states=sorted_states)
 
 
 if __name__ == '__main__':
