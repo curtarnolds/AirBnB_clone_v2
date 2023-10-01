@@ -81,11 +81,8 @@ def cities_by_states():
     """Display HTML of list of cities by states"""
     states_obj = storage.all('State')
     states_list = [key for key in states_obj.values()]
-    sorted_states = sorted(states_list, key=lambda x: x.name)
-    # if getenv('HBNB_TYPE_STORAGE') == 'db':
-    #     pass
-    return render_template('8-cities_by_states.html', states=sorted_states)
+    return render_template('8-cities_by_states.html', states=states_list)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
