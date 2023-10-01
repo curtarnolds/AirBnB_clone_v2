@@ -71,9 +71,8 @@ def states_list():
     """Display HTML of list of states"""
     states_obj = storage.all('State')
     states_list = [key for key in states_obj.values()]
-    sorted_states = sorted(states_list, key=lambda x: x.name)
-    return render_template('7-states_list.html', states=sorted_states)
+    return render_template('7-states_list.html', states=states_list)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
