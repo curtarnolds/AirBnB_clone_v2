@@ -18,9 +18,9 @@ app = Flask(__name__)
 @app.teardown_appcontext
 def teardown(exception):
     """Remove current SQLAlchemy Session during teardown"""
-    db = g.pop('db', None)
-    if db is not None:
-        storage.close()
+    # db = g.pop('db', None)
+    # if db is not None:
+    storage.close()
 
 
 @app.route('/')
