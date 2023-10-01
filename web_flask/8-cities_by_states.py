@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """A simple Flask application"""
-from flask import Flask, render_template, g
+from flask import Flask, render_template
 from models import storage
 from os import getenv  # noqa
 
@@ -18,8 +18,6 @@ app = Flask(__name__)
 @app.teardown_appcontext
 def teardown(exception):
     """Remove current SQLAlchemy Session during teardown"""
-    # db = g.pop('db', None)
-    # if db is not None:
     storage.close()
 
 
